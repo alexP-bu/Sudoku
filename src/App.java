@@ -1,32 +1,29 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class App {
 
+    private QueueManager queueManager;
+
     public static void main(String[] args) throws Exception {
+        App app = new App();
         File boardsFile = new File("boards.txt");
-   
+
         if(!boardsFile.exists()){
-            defaultRun();
+            app.defaultRun();
         }else{
             //read boards from file
-            RequestQueue requestQueue = new RequestQueue();
-            readBoards(requestQueue, boardsFile);
+            app.readBoards(boardsFile);
             //create work queue
-            
+            app.queueManager = new QueueManager();
         }
     }
     
-    private static void readBoards(List<Board> boardList, File boardsFile){
+    private void readBoards(File boardsFile){
+        ArrayList<Board> boardList= new ArrayList<>();
         //read boards from file
         int lineNumber = 0;
         int row = 0;
@@ -65,7 +62,9 @@ public class App {
         boardList.forEach(System.out::println);
     }
     
-
+    /*
+     * import a line from boards.txt
+     */
     private static Board importLine(String line, Board board, int row){
         int col = 0;
         for(int i = 1; i < line.length(); i++){
@@ -85,24 +84,28 @@ public class App {
         return board;
     }
 
-    private static void defaultRun() {
+    /*
+     * default run code
+     */
+    private void defaultRun() {
         System.out.println("Example run:");
-    
+        //create a board
         Board board = new Board();
         board.generateSampleBoard();
-        System.out.println();
+        System.out.println("\n");
+        //create a request and give it to the queuemanger
+        Request req = new Request(board);
+        queueManager.recieveRequest(req);
+        //wait for all jobs to complete
+        queueManager.waitForAllJobs();
+        //give instructions dialog        
+        instructions();
+    }
 
-
-        Worker worker = new Worker(board);
-        Thread thread = new Thread(worker);
-        thread.start();
-        try{
-            thread.join();
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
-        worker.printSolutions();
-
+    /*
+     * instructions dialog
+     */
+    private void instructions(){
         System.out.println("Now... input your own!");
         System.out.println("Save a file called boards.txt with your board as a matrix");
         System.out.println("Ex:");

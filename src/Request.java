@@ -9,12 +9,12 @@ public class Request {
         CREATION_TIMESTAMP = System.currentTimeMillis(); 
     }
 
-    public Request(Request req) {
-        
+    public Request(Board board){
+        CREATION_TIMESTAMP = System.currentTimeMillis();
+        this.board = board;
     }
 
     public Board getBoard() {
         return board;
     }
-
 }

@@ -62,15 +62,19 @@ public class Board {
 
     public void solve(){
        for(int r = 0; r < sboard.length; r++){
-        for(int c = 0; c < sboard[0].length; c++){
-            if(sboard[r][c] == 0){
+        for(int c = 0; c < sboard[0].length; c++){ //for each square in r,c
+            //find next writable square
+            if(sboard[r][c] == 0){ 
+                //try every valid value
+                //if valid, recurse on next square
                 for(int value = 0; value < 10; value++){
                     if (isValid(r,c,value)){
                         sboard[r][c] = value;
-                        solve();
+                        solve(); //recurse with next square
                         sboard[r][c] = 0;
                     }
                 }
+                //if we tried every value and none worked
                 return;
             }
         }

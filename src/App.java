@@ -10,25 +10,26 @@ public class App {
     private QueueManager queueManager;
 
     public static void main(String[] args) {
-        App app = new App();
         File boardsFile = new File("boards.txt");
+        //initialize app
+        App app = new App();
+        app.queueManager = new QueueManager();
         //if the boards file doesn't exist, do the default run
         if(!boardsFile.exists() || boardsFile.length() == 0){
             app.defaultRun();
         }else{
             //if file exists and isn't empty, read boards from file
             List<Board> importedBoards = app.readBoards(boardsFile);
-            //create work queue
-            app.queueManager = new QueueManager();
             //run the queue manager with the board list
             importedBoards.stream()
                           .parallel()
                           .forEach(board -> app.queueManager.recieveRequest(new Request(board)));
             System.out.println("All boards imported from file. Starting solver...");
+            //wait for all jobs to complete
+            app.queueManager.waitForAllJobs();
+            System.out.println("All solvable boards complete.");
         }
-        //wait for all jobs to complete
-        app.queueManager.waitForAllJobs();
-        System.out.println("All solvable boards complete.");
+        System.out.println("Exiting...");
     }
     
     /*
@@ -75,8 +76,9 @@ public class App {
             } catch (Exception e){
                 e.printStackTrace();
             }
-        System.out.println("Boards read from file:");
+        System.out.println("Boards imported from file:");
         boardList.forEach(System.out::println);
+        System.out.println("\n");
         return boardList;
     }
     
@@ -125,11 +127,8 @@ public class App {
      */
     private void instructions(){
         System.out.println("Now... input your own!");
-        System.out.println("Save a file called boards.txt with your board as a matrix");
-        System.out.println("Ex:");
-        System.out.println("[10...9]");
-        System.out.println("[23...6]");
-        System.out.println("etc for 9 rows - any rows that are incomplete will be filled with 0s");
+        System.out.println("Save a file called boards.txt with your custom board configurations!");
+        System.out.println("HINT: read the readme to learn how to format your boards.txt file.");
         System.out.println("Then, rerun this program!");
     }
 }

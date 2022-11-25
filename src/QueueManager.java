@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -14,6 +15,7 @@ public class QueueManager {
      */
     public QueueManager(){
         this.queue = new LinkedList<>();
+        this.threads = new ArrayList<>();
         totalWorkersRan = 0;
     }
     

@@ -1,5 +1,6 @@
 /*
- * Worker class that solves a sudoku board
+ * Worker class which serves a request
+ * default timeout is 3 seconds
  */
 public class Worker implements Runnable {
 
@@ -19,7 +20,18 @@ public class Worker implements Runnable {
      */
     @Override
     public void run() {
-        req.getBoard().solve();      
+        this.req.getBoard().solve();
+        long time = System.currentTimeMillis();
+        while(this.req.getBoard().getSolutionList().isEmpty() || 
+             (time + this.req.getTIMEOUT()) < System.currentTimeMillis()){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
+        }
+        this.printSolutions();     
     }
 
     /*

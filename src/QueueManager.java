@@ -42,6 +42,7 @@ public class QueueManager {
                 if(req != null){
                     Worker worker = new Worker(totalWorkersRan, req);
                     Thread thread = new Thread(worker);
+                    thread.start();
                     threads.add(thread);        
                 }
             }

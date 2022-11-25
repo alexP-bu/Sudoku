@@ -60,6 +60,9 @@ public class Board {
         System.out.println(this.toString());
     }
 
+    /*
+     * solve function for the board
+     */
     public void solve(){
        for(int r = 0; r < sboard.length; r++){
         for(int c = 0; c < sboard[0].length; c++){ //for each square in r,c
@@ -82,6 +85,9 @@ public class Board {
        solutionList.add(toString(sboard));
     }
 
+    /*
+     * check if a value is valid in a square
+     */
     private boolean isValid(int r, int c, int value) {
         //check cols
         for(int i = 0; i < sboard.length; i++){
@@ -108,6 +114,9 @@ public class Board {
         return true;
     }
 
+    /*
+     * convert board object to string
+     */
     public String toString(){
         String out = "\n";
         for(int i = 0; i < sboard.length; i++){
@@ -128,9 +137,12 @@ public class Board {
             }
         }
         out += "\n";
-        return out = hr(out);
+        return hr(out);
     }
 
+    /*
+     * convert board of type int[][] to string
+     */
     public String toString(int[][] board){
         String out = "\n";
         for(int i = 0; i < board.length; i++){
@@ -151,13 +163,19 @@ public class Board {
             }
         }
         out += "\n";
-        return out = hr(out);
+        return hr(out);
     }
 
+    /*
+     * return board
+     */
     public int[][] getBoard(){
         return sboard;
     }
 
+    /*
+     * Prints a horizontal rule for the board
+     */
     private String hr(String str){
         str += "_";
         for(int k = 0; k < sboard.length + 1; k++){

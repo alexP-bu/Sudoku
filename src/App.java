@@ -22,6 +22,9 @@ public class App {
         }
     }
     
+    /*
+     * read boards from designated file
+     */
     private void readBoards(File boardsFile){
         ArrayList<Board> boardList= new ArrayList<>();
         //read boards from file

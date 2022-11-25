@@ -11,7 +11,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         App app = new App();
         File boardsFile = new File("boards.txt");
-
+        //if the boards file doesn't exist, do the default run
         if(!boardsFile.exists() || boardsFile.length() == 0){
             app.defaultRun();
         }else{

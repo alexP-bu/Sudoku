@@ -14,6 +14,10 @@ public class Request {
         this.board = board;
     }
 
+    public long getTimeStamp(){
+        return CREATION_TIMESTAMP;
+    }
+
     public Board getBoard() {
         return board;
     }

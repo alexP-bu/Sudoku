@@ -2,31 +2,40 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class App {
 
     private QueueManager queueManager;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         App app = new App();
         File boardsFile = new File("boards.txt");
         //if the boards file doesn't exist, do the default run
         if(!boardsFile.exists() || boardsFile.length() == 0){
             app.defaultRun();
         }else{
-            //read boards from file
-            app.readBoards(boardsFile);
+            //if file exists and isn't empty, read boards from file
+            List<Board> importedBoards = app.readBoards(boardsFile);
             //create work queue
             app.queueManager = new QueueManager();
+            //run the queue manager with the board list
+            importedBoards.stream()
+                          .parallel()
+                          .forEach(board -> app.queueManager.recieveRequest(new Request(board)));
+            System.out.println("All boards imported from file. Starting solver...");
         }
+        //wait for all jobs to complete
+        app.queueManager.waitForAllJobs();
+        System.out.println("All solvable boards complete.");
     }
     
     /*
      * read boards from designated file
      */
-    private void readBoards(File boardsFile){
-        ArrayList<Board> boardList= new ArrayList<>();
+    private List<Board> readBoards(File boardsFile){
+        ArrayList<Board> boardList = new ArrayList<>();
         //read boards from file
         int lineNumber = 0;
         int row = 0;
@@ -66,7 +75,9 @@ public class App {
             } catch (Exception e){
                 e.printStackTrace();
             }
+        System.out.println("Boards read from file:");
         boardList.forEach(System.out::println);
+        return boardList;
     }
     
     /*

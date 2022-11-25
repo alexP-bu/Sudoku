@@ -12,7 +12,7 @@ public class App {
         App app = new App();
         File boardsFile = new File("boards.txt");
 
-        if(!boardsFile.exists()){
+        if(!boardsFile.exists() || boardsFile.length() == 0){
             app.defaultRun();
         }else{
             //read boards from file

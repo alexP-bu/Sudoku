@@ -1,18 +1,28 @@
-## Getting Started
+A multi-threaded sudoku solver capable of solving up to 10 boards at once.
+If there is no boards.txt file, the program runs on a sample board.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+To import your own boards, create a boards.txt file, and designate your boards.
 
-## Folder Structure
+Board formatting:
+To create a board, just write what values in the squares within two brackets for each line.
+  - A 0 denotes an empty square
+  - If a line has less than 9 numbers, the rest of the values in that line fill in as 0s
+  - If a board has less than 9 lines, then the rest of the lines fill in as 0s
+  - If we have 9 lines, and add a 10th line, a new board will be created
+  - Empty lines are are not allowed and will throw an error
 
-The workspace contains two folders by default, where:
+boards.txt   -------->     interpreted board
+                      _________________________
+[123456789]           | 1 2 3 | 4 5 6 | 7 8 9 |
+[123456789]           | 1 2 3 | 4 5 6 | 7 8 9 |
+[123456789]           | 1 2 3 | 4 5 6 | 7 8 9 |
+[987654321]           _________________________
+[1234]                | 9 8 7 | 6 5 4 | 3 2 1 |
+[123456]              | 1 2 3 | 4 0 0 | 0 0 0 |
+                      | 1 2 3 | 4 5 6 | 0 0 0 |
+                      _________________________
+                      | 0 0 0 | 0 0 0 | 0 0 0 |
+                      | 0 0 0 | 0 0 0 | 0 0 0 |
+                      | 0 0 0 | 0 0 0 | 0 0 0 |
+                      _________________________
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).

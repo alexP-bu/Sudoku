@@ -34,6 +34,10 @@ public class App {
         Board currBoard = new Board();
         try (BufferedReader br = new BufferedReader(new FileReader(boardsFile))){
             while((line = br.readLine()) != null){
+                //if the line is null, skip it
+                if(line.equals("")){
+                    continue;
+                }
                 //check to make sure it's formatted properly
                 if(line.charAt(0) != '['){
                     System.out.println("invalid row in boards.txt; missing [ at row: " + lineNumber);
@@ -60,7 +64,7 @@ public class App {
                 currBoard = new Board();
             }  
             } catch (Exception e){
-            e.printStackTrace();
+                e.printStackTrace();
             }
         boardList.forEach(System.out::println);
     }
